@@ -6,19 +6,19 @@ The full design lives in `docs/superpowers/specs/2026-04-27-thread-base-scaffold
 
 ## Stack (locked-in)
 
-| Concern | Choice | Don't suggest |
-|---|---|---|
-| Build | Vite | Webpack, Nuxt (no SSR needed) |
-| Package manager + runtime | **Bun** | npm, pnpm, yarn |
-| UI | Vue 3, Composition API, `<script setup>` | Options API |
-| Routing | Vue Router 4 | — |
-| State | Pinia (composition style) | Vuex |
-| Styling | **Tailwind CSS v4** (`@tailwindcss/vite`) | Tailwind v3, PostCSS config files |
-| Lint | **oxlint** | ESLint (user explicitly chose oxlint for speed) |
-| Format | Prettier | — |
-| Tests | Vitest + `@vue/test-utils`, jsdom env | Jest |
-| Backend client | `@supabase/supabase-js` (typed via generated `Database`) | — |
-| Backend tooling | Supabase CLI (Homebrew install) | npm-installed CLI |
+| Concern                   | Choice                                                   | Don't suggest                                   |
+| ------------------------- | -------------------------------------------------------- | ----------------------------------------------- |
+| Build                     | Vite                                                     | Webpack, Nuxt (no SSR needed)                   |
+| Package manager + runtime | **Bun**                                                  | npm, pnpm, yarn                                 |
+| UI                        | Vue 3, Composition API, `<script setup>`                 | Options API                                     |
+| Routing                   | Vue Router 4                                             | —                                               |
+| State                     | Pinia (composition style)                                | Vuex                                            |
+| Styling                   | **Tailwind CSS v4** (`@tailwindcss/vite`)                | Tailwind v3, PostCSS config files               |
+| Lint                      | **oxlint**                                               | ESLint (user explicitly chose oxlint for speed) |
+| Format                    | Prettier                                                 | —                                               |
+| Tests                     | Vitest + `@vue/test-utils`, jsdom env                    | Jest                                            |
+| Backend client            | `@supabase/supabase-js` (typed via generated `Database`) | —                                               |
+| Backend tooling           | Supabase CLI (Homebrew install)                          | npm-installed CLI                               |
 
 **Tooling preference rule (user feedback):** always use the latest/best stable tool. If you're tempted to fall back to an older option "for stability," flag the tradeoff explicitly first.
 

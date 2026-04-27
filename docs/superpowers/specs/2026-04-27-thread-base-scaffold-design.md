@@ -27,19 +27,19 @@ Future-compatible with Capacitor (mobile apps) — design must not preclude that
 
 ## Stack
 
-| Concern | Choice | Notes |
-|---|---|---|
-| Build tool | Vite | Bun-compatible; standard Vue tooling |
-| Package manager + runtime | Bun | `bun install`, `bun run …` |
-| UI framework | Vue 3 | Composition API, `<script setup>` |
-| Routing | Vue Router 4 | `createWebHistory` initially (see Capacitor note below) |
-| State | Pinia | Composition-style stores |
-| Styling | Tailwind CSS v4 | `@tailwindcss/vite` plugin (no PostCSS config) |
-| Linting | oxlint | Rust-based, much faster than ESLint; Vue + TS plugins |
-| Formatting | Prettier | No ESLint integration needed (oxlint stays out of formatting) |
-| Tests | Vitest + `@vue/test-utils` | jsdom environment |
-| Backend client | `@supabase/supabase-js` | Typed via generated `Database` interface |
-| Backend tooling | Supabase CLI | Local Docker stack, versioned migrations |
+| Concern                   | Choice                     | Notes                                                         |
+| ------------------------- | -------------------------- | ------------------------------------------------------------- |
+| Build tool                | Vite                       | Bun-compatible; standard Vue tooling                          |
+| Package manager + runtime | Bun                        | `bun install`, `bun run …`                                    |
+| UI framework              | Vue 3                      | Composition API, `<script setup>`                             |
+| Routing                   | Vue Router 4               | `createWebHistory` initially (see Capacitor note below)       |
+| State                     | Pinia                      | Composition-style stores                                      |
+| Styling                   | Tailwind CSS v4            | `@tailwindcss/vite` plugin (no PostCSS config)                |
+| Linting                   | oxlint                     | Rust-based, much faster than ESLint; Vue + TS plugins         |
+| Formatting                | Prettier                   | No ESLint integration needed (oxlint stays out of formatting) |
+| Tests                     | Vitest + `@vue/test-utils` | jsdom environment                                             |
+| Backend client            | `@supabase/supabase-js`    | Typed via generated `Database` interface                      |
+| Backend tooling           | Supabase CLI               | Local Docker stack, versioned migrations                      |
 
 **Explicitly excluded (from scaffold):** Nuxt (no SSR needed), `@supabase/auth-ui-vue` (user wants to build UI later), Playwright, Storybook.
 
@@ -164,7 +164,7 @@ Components import `useAuth()`, never `useAuthStore()` directly. The store is an 
 const app = createApp(App)
 app.use(createPinia())
 const auth = useAuthStore()
-await auth.initialize()       // critical: BEFORE router + mount
+await auth.initialize() // critical: BEFORE router + mount
 app.use(router)
 app.mount('#app')
 ```
@@ -198,25 +198,25 @@ Gitignored: `supabase/.branches`, `supabase/.temp`.
 
 ### `package.json` scripts
 
-| Script | Command | Purpose |
-|---|---|---|
-| `dev` | `vite` | Dev server with HMR |
-| `build` | `vue-tsc -b && vite build` | Type-check + production build |
-| `preview` | `vite preview` | Serve production build locally |
-| `test` | `vitest` | Unit tests (watch) |
-| `test:run` | `vitest run` | Unit tests (one-shot, for CI) |
-| `lint` | `oxlint` | Lint |
-| `lint:fix` | `oxlint --fix` | Auto-fix |
-| `format` | `prettier --write .` | Format |
-| `typecheck` | `vue-tsc --noEmit` | Type-check only |
-| `db:start` | `supabase start` | Start local Supabase stack (Docker) |
-| `db:stop` | `supabase stop` | Stop local stack |
-| `db:status` | `supabase status` | Show ports + keys |
-| `db:reset` | `supabase db reset` | Recreate DB from migrations + seed |
-| `db:diff` | `supabase db diff` | Generate migration; pass name as arg, e.g. `bun run db:diff -- -f my_migration` |
-| `db:types` | `supabase gen types typescript --local > src/types/database.ts` | Regenerate DB types |
-| `db:link` | `supabase link` | Link remote; pass ref as arg, e.g. `bun run db:link -- --project-ref abc123` |
-| `db:push` | `supabase db push` | Push migrations to remote |
+| Script      | Command                                                         | Purpose                                                                         |
+| ----------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `dev`       | `vite`                                                          | Dev server with HMR                                                             |
+| `build`     | `vue-tsc -b && vite build`                                      | Type-check + production build                                                   |
+| `preview`   | `vite preview`                                                  | Serve production build locally                                                  |
+| `test`      | `vitest`                                                        | Unit tests (watch)                                                              |
+| `test:run`  | `vitest run`                                                    | Unit tests (one-shot, for CI)                                                   |
+| `lint`      | `oxlint`                                                        | Lint                                                                            |
+| `lint:fix`  | `oxlint --fix`                                                  | Auto-fix                                                                        |
+| `format`    | `prettier --write .`                                            | Format                                                                          |
+| `typecheck` | `vue-tsc --noEmit`                                              | Type-check only                                                                 |
+| `db:start`  | `supabase start`                                                | Start local Supabase stack (Docker)                                             |
+| `db:stop`   | `supabase stop`                                                 | Stop local stack                                                                |
+| `db:status` | `supabase status`                                               | Show ports + keys                                                               |
+| `db:reset`  | `supabase db reset`                                             | Recreate DB from migrations + seed                                              |
+| `db:diff`   | `supabase db diff`                                              | Generate migration; pass name as arg, e.g. `bun run db:diff -- -f my_migration` |
+| `db:types`  | `supabase gen types typescript --local > src/types/database.ts` | Regenerate DB types                                                             |
+| `db:link`   | `supabase link`                                                 | Link remote; pass ref as arg, e.g. `bun run db:link -- --project-ref abc123`    |
+| `db:push`   | `supabase db push`                                              | Push migrations to remote                                                       |
 
 ### Env vars
 
