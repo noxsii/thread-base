@@ -5,5 +5,8 @@
     "correctness": "error",
     "suspicious": "warn"
   },
+  "rules": {
+    "import/no-unassigned-import": "off"
+  },
   "ignorePatterns": ["dist", "node_modules", "src/types/database.ts", "supabase"]
 }
