@@ -11,7 +11,7 @@ The full design lives in `docs/superpowers/specs/2026-04-27-thread-base-scaffold
 | Build                     | Vite                                                     | Webpack, Nuxt (no SSR needed)                   |
 | Package manager + runtime | **Bun**                                                  | npm, pnpm, yarn                                 |
 | UI                        | Vue 3, Composition API, `<script setup>`                 | Options API                                     |
-| Routing                   | Vue Router 4                                             | —                                               |
+| Routing                   | Vue Router 5 (Vue 3 stable)                              | Vue Router 3 (Vue 2)                            |
 | State                     | Pinia (composition style)                                | Vuex                                            |
 | Styling                   | **Tailwind CSS v4** (`@tailwindcss/vite`)                | Tailwind v3, PostCSS config files               |
 | Lint                      | **oxlint**                                               | ESLint (user explicitly chose oxlint for speed) |

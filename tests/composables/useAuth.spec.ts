@@ -1,7 +1,11 @@
 import { setActivePinia, createPinia } from 'pinia'
 import { isRef } from 'vue'
+import type { Session, User } from '@supabase/supabase-js'
 import { useAuth } from '@/composables/useAuth'
 import { useAuthStore } from '@/stores/auth'
+
+const mockUser = { id: 'u1' } as unknown as User
+const mockSession = { access_token: 't' } as unknown as Session
 
 vi.mock('@/lib/supabase', () => ({
   supabase: {
@@ -32,9 +36,9 @@ describe('useAuth', () => {
   it('updates when the underlying store changes', () => {
     const store = useAuthStore()
     const auth = useAuth()
-    store.user = { id: 'u1' } as never
-    store.session = { access_token: 't' } as never
-    expect(auth.user.value).toEqual({ id: 'u1' })
+    store.user = mockUser
+    store.session = mockSession
+    expect(auth.user.value).toEqual(mockUser)
     expect(auth.isAuthenticated.value).toBe(true)
   })
 
