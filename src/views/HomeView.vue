@@ -1,0 +1,8 @@
+<script setup lang="ts"></script>
+
+<template>
+  <section class="p-8">
+    <h1 class="text-3xl font-bold text-slate-900">Home</h1>
+    <p class="mt-2 text-slate-600">thread-base scaffold</p>
+  </section>
+</template>
