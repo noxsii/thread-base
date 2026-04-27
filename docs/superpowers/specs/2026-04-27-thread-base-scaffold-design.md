@@ -65,7 +65,6 @@ thread-base/
 ├── src/
 │   ├── main.ts                   # bootstraps Pinia, Router, awaits auth init before mount
 │   ├── App.vue
-│   ├── App.spec.ts               # smoke test
 │   ├── assets/
 │   │   └── main.css              # @import "tailwindcss";
 │   │
@@ -87,6 +86,13 @@ thread-base/
 │   │
 │   └── views/
 │       └── HomeView.vue          # single placeholder view
+│
+├── tests/                        # mirrors src/ structure; *.spec.ts only
+│   ├── App.spec.ts               # smoke test
+│   ├── stores/
+│   │   └── auth.spec.ts
+│   └── composables/
+│       └── useAuth.spec.ts
 │
 └── supabase/                     # created via `bunx supabase init`
     ├── config.toml

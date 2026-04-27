@@ -70,8 +70,16 @@ src/
 │   └── database.ts    # GENERATED — do not hand-edit; regenerate via bun run db:types
 └── views/
 
+tests/                 # mirrors src/ structure; *.spec.ts files only
+├── App.spec.ts
+├── stores/
+├── composables/
+└── ...
+
 supabase/              # versioned: config.toml, migrations/, seed.sql
 ```
+
+Tests live in `tests/`, not co-located in `src/`. Mirror the `src/` directory structure.
 
 Path alias: `@/*` → `src/*` (configured in `tsconfig.app.json` and via `vite-tsconfig-paths`).
 

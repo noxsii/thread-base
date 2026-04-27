@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { createMemoryHistory, createRouter } from 'vue-router'
-import App from './App.vue'
-import HomeView from './views/HomeView.vue'
+import App from '@/App.vue'
+import HomeView from '@/views/HomeView.vue'
 
 describe('App', () => {
   it('renders the matched route', async () => {
