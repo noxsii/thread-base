@@ -122,6 +122,9 @@ dist-ssr
 # Supabase
 supabase/.branches
 supabase/.temp
+
+# JetBrains IDEs
+.idea
 ```
 
 - [ ] **Step 3: Verify**
