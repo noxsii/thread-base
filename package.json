@@ -21,5 +21,17 @@
     "db:types": "supabase gen types typescript --local > src/types/database.ts",
     "db:link": "supabase link",
     "db:push": "supabase db push"
+  },
+  "dependencies": {
+    "vue": "^3.5.33"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@vitejs/plugin-vue": "^6.0.6",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10",
+    "vite-plugin-vue-devtools": "^8.1.1",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vue-tsc": "^3.2.7"
   }
 }
