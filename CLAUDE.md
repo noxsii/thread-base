@@ -134,7 +134,7 @@ Constraints to maintain so the future Capacitor add works smoothly:
 Required:
 
 - `VITE_SUPABASE_URL` — `http://127.0.0.1:54321` for local, project URL for remote
-- `VITE_SUPABASE_ANON_KEY` — printed by `bun run db:status`
+- `VITE_SUPABASE_PUBLISHABLE_KEY` — `sb_publishable_…` printed by `bun run db:status` (replaces the legacy `anon` key)
 
 ## Out of scope (current scaffold)
 

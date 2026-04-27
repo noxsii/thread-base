@@ -2,12 +2,12 @@ import { createClient } from '@supabase/supabase-js'
 import type { Database } from '@/types/database'
 
 const url = import.meta.env.VITE_SUPABASE_URL
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const publishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 
-if (!url || !anonKey) {
+if (!url || !publishableKey) {
   throw new Error(
-    'Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY. Copy .env.example to .env.local and fill in values from `bun run db:status`.',
+    'Missing VITE_SUPABASE_URL or VITE_SUPABASE_PUBLISHABLE_KEY. Copy .env.example to .env.local and fill in values from `bun run db:status`.',
   )
 }
 
-export const supabase = createClient<Database>(url, anonKey)
+export const supabase = createClient<Database>(url, publishableKey)
