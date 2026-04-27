@@ -23,6 +23,7 @@
     "db:push": "supabase db push"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.104.1",
     "pinia": "^3.0.4",
     "vue": "^3.5.33",
     "vue-router": "^5.0.6"
