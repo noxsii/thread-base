@@ -38,8 +38,7 @@ export default {
     },
     {
       title: 'Respect privacy',
-      description:
-        'Do not publish personal data of other people without their consent.',
+      description: 'Do not publish personal data of other people without their consent.',
     },
     {
       title: 'Take responsibility',

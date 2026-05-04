@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { useI18n, Translation as I18nT } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import { Check, Copy, Download, KeyRound, ShieldAlert } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useDeviceUuidStore } from '@/stores/deviceUuid'
@@ -36,6 +37,10 @@ const canSubmit = computed(
 )
 
 const warningPoints = computed(() => tm('auth.login.warningPoints') as string[])
+
+useHead({
+  title: () => t('auth.login.title'),
+})
 
 onMounted(() => {
   deviceUuid.ensure()

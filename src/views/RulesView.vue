@@ -2,15 +2,10 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import { ArrowLeft, ScrollText, ShieldAlert } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 interface RuleItem {
@@ -22,6 +17,10 @@ const router = useRouter()
 const { t, tm } = useI18n()
 
 const items = computed(() => tm('rules.items') as RuleItem[])
+
+useHead({
+  title: () => t('rules.title'),
+})
 
 function back() {
   if (window.history.length > 1) router.back()
