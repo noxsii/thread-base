@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
-import { useDeviceUuid } from '@/composables/useDeviceUuid'
+import { useDeviceUuidStore } from '@/stores/deviceUuid'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -16,14 +17,15 @@ import {
 const router = useRouter()
 const route = useRoute()
 const { signInWithUuid } = useAuth()
-const { ensure } = useDeviceUuid()
 
-const uuid = ref('')
+const deviceUuid = useDeviceUuidStore()
+const { uuid } = storeToRefs(deviceUuid)
+
 const submitting = ref(false)
 const errorMessage = ref<string | null>(null)
 
 onMounted(() => {
-  uuid.value = ensure()
+  deviceUuid.ensure()
 })
 
 async function start() {
