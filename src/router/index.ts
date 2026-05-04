@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import { requireAuth } from './guards'
+import { redirectIfAuthenticated, requireAuth } from './guards'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -15,6 +15,7 @@ export const router = createRouter({
       name: 'login',
       path: '/login',
       component: () => import('@/views/LoginView.vue'),
+      beforeEnter: redirectIfAuthenticated,
     },
     {
       name: 'rules',
