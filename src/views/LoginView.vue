@@ -65,7 +65,7 @@ function downloadUuid() {
 }
 
 async function start() {
-  if (!canSubmit.value) return
+  if (!canSubmit.value || !uuid.value) return
   submitting.value = true
   errorMessage.value = null
   try {
