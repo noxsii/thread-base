@@ -71,12 +71,7 @@ async function copyUuid() {
       </CardContent>
 
       <CardFooter>
-        <Button
-          class="w-full"
-          size="lg"
-          :disabled="submitting || !uuid"
-          @click="start"
-        >
+        <Button class="w-full" size="lg" :disabled="submitting || !uuid" @click="start">
           {{ submitting ? 'Lade …' : 'Loslegen' }}
         </Button>
       </CardFooter>

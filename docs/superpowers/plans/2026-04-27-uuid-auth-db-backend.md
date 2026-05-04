@@ -13,6 +13,7 @@
 **Spec:** `docs/superpowers/specs/2026-04-27-uuid-auth-design.md`
 
 **Files:**
+
 - Create: `supabase/migrations/<timestamp>_uuid_auth_users.sql` (Timestamp wird vom Supabase CLI vergeben)
 - Modify (regenerate): `src/types/database.ts`
 
@@ -41,6 +42,7 @@ Expected: Am Ende ein "Started supabase local development setup" mit der gleiche
 ### Task 2: Empty Migration File erzeugen
 
 **Files:**
+
 - Create: `supabase/migrations/<auto-timestamp>_uuid_auth_users.sql` (leer)
 
 - [ ] **Schritt 1: Migration-Datei via Supabase CLI generieren**
@@ -60,6 +62,7 @@ Expected: Genau ein Pfad, mit aktuellem UTC-Timestamp am Anfang. Diesen Pfad mer
 ### Task 3: Migration SQL schreiben
 
 **Files:**
+
 - Modify: `supabase/migrations/<timestamp>_uuid_auth_users.sql` (komplett befüllen)
 
 - [ ] **Schritt 1: Datei vollständig mit folgendem Inhalt überschreiben**
@@ -140,6 +143,7 @@ Wenn ein SQL-Fehler erscheint: Output lesen, in der Migration-Datei korrigieren,
 - [ ] **Schritt 1: Connection-String setzen**
 
 Run:
+
 ```bash
 DB_URL=$(bun run db:status 2>/dev/null | awk -F': +' '/DB URL/ {print $2}')
 echo "DB_URL=$DB_URL"
@@ -150,11 +154,13 @@ Expected: `DB_URL=postgres://postgres:postgres@127.0.0.1:54322/postgres`
 - [ ] **Schritt 2: Tabelle `public.users` existiert mit den richtigen Spalten und FK**
 
 Run:
+
 ```bash
 psql "$DB_URL" -c "\d public.users"
 ```
 
 Expected: Output zeigt drei Spalten:
+
 - `id` `uuid` `not null`
 - `name` `text` (nullable)
 - `created_at` `timestamp with time zone` `not null default now()`
@@ -164,6 +170,7 @@ Sowie Foreign-Key-Constraint `users_id_fkey FOREIGN KEY (id) REFERENCES auth.use
 - [ ] **Schritt 3: RLS ist enabled**
 
 Run:
+
 ```bash
 psql "$DB_URL" -tAc "select relrowsecurity from pg_class where oid = 'public.users'::regclass"
 ```
@@ -173,17 +180,20 @@ Expected: `t`
 - [ ] **Schritt 4: Beide Policies existieren**
 
 Run:
+
 ```bash
 psql "$DB_URL" -c "select policyname, cmd, roles from pg_policies where schemaname='public' and tablename='users' order by policyname"
 ```
 
 Expected: Genau zwei Zeilen:
+
 - `users_select_own | SELECT | {authenticated}`
 - `users_update_own | UPDATE | {authenticated}`
 
 - [ ] **Schritt 5: Trigger und Funktion existieren**
 
 Run:
+
 ```bash
 psql "$DB_URL" -c "select trigger_name, event_manipulation, event_object_schema, event_object_table from information_schema.triggers where trigger_name='on_auth_user_created'"
 ```
@@ -191,6 +201,7 @@ psql "$DB_URL" -c "select trigger_name, event_manipulation, event_object_schema,
 Expected: Eine Zeile: `on_auth_user_created | INSERT | auth | users`
 
 Run:
+
 ```bash
 psql "$DB_URL" -tAc "select prosecdef from pg_proc where proname='handle_new_user' and pronamespace = 'public'::regnamespace"
 ```
@@ -206,6 +217,7 @@ Expected: `t` (security definer ist gesetzt)
 - [ ] **Schritt 1: Publishable Key und API-URL auslesen**
 
 Run:
+
 ```bash
 PK=$(bun run db:status 2>/dev/null | awk -F': +' '/Publishable key|anon key/ {print $2; exit}')
 API_URL=$(bun run db:status 2>/dev/null | awk -F': +' '/API URL/ {print $2}')
@@ -220,6 +232,7 @@ Wenn `PK` leer ist: `bun run db:status` per Hand inspizieren, Variablennamen anp
 - [ ] **Schritt 2: Eine Test-UUID erzeugen und gegen die Auth-API signUp-Aufruf machen**
 
 Run:
+
 ```bash
 TEST_UUID=$(uuidgen | tr 'A-Z' 'a-z')
 echo "TEST_UUID=$TEST_UUID"
@@ -237,6 +250,7 @@ Wenn die Antwort einen Fehler enthält (z.B. "Email address ... is invalid"): si
 - [ ] **Schritt 3: `auth.users` hat die neue Zeile**
 
 Run:
+
 ```bash
 psql "$DB_URL" -tAc "select id, email from auth.users where id = '$TEST_UUID'"
 ```
@@ -246,6 +260,7 @@ Expected: Eine Zeile, `<TEST_UUID>|<TEST_UUID>@thread-base.local`.
 - [ ] **Schritt 4: `public.users` hat eine korrespondierende Zeile (Trigger funktioniert)**
 
 Run:
+
 ```bash
 psql "$DB_URL" -tAc "select id, name, created_at is not null from public.users where id = '$TEST_UUID'"
 ```
@@ -255,6 +270,7 @@ Expected: Eine Zeile, `<TEST_UUID>||t` (`name` ist NULL, `created_at` ist gesetz
 - [ ] **Schritt 5: Access-Token aus dem signUp-Response holen (für RLS-Check)**
 
 Run:
+
 ```bash
 ACCESS_TOKEN=$(curl -s -X POST "$API_URL/auth/v1/token?grant_type=password" \
   -H "apikey: $PK" \
@@ -269,6 +285,7 @@ Expected: Variable enthält ein JWT, das mit `eyJ` beginnt. Wenn `null`: signUp 
 - [ ] **Schritt 6: Mit Test-User-JWT genau die eigene Zeile sehen**
 
 Run:
+
 ```bash
 curl -s "$API_URL/rest/v1/users?select=id" \
   -H "apikey: $PK" \
@@ -281,6 +298,7 @@ Expected: Array mit genau einem Eintrag, `[{"id":"<TEST_UUID>"}]`. Andere User (
 - [ ] **Schritt 7: Ohne JWT (anon) leeres Array**
 
 Run:
+
 ```bash
 curl -s "$API_URL/rest/v1/users?select=id" \
   -H "apikey: $PK" \
@@ -292,6 +310,7 @@ Expected: `[]`. Die `to authenticated`-Klausel der Policies sperrt den `anon`-Ro
 - [ ] **Schritt 8: Test-User aufräumen**
 
 Run:
+
 ```bash
 psql "$DB_URL" -c "delete from auth.users where id = '$TEST_UUID'"
 psql "$DB_URL" -tAc "select count(*) from public.users where id = '$TEST_UUID'"
@@ -302,6 +321,7 @@ Expected nach Delete: Cascade hat zugeschlagen, Count ist `0`. Damit ist auch ve
 - [ ] **Schritt 9: Schritt-Zähler aktualisieren — alle 5 Spec-Verifikationspunkte gedeckt**
 
 Sanity-Check, kein Kommando: Bestätige für dich, dass alle Punkte aus der Spec-Verifikations-Sektion abgehakt sind:
+
 1. db:reset läuft sauber → Task 4
 2. signUp erzeugt Zeilen in beiden Tabellen → Schritte 2-4
 3. JWT-User sieht nur eigene Zeile → Schritt 6
@@ -313,6 +333,7 @@ Sanity-Check, kein Kommando: Bestätige für dich, dass alle Punkte aus der Spec
 ### Task 7: TypeScript-Typen regenerieren und typecheck
 
 **Files:**
+
 - Modify (regenerate): `src/types/database.ts`
 
 - [ ] **Schritt 1: Typen generieren**
@@ -350,6 +371,7 @@ Expected: oxlint findet keine Fehler. Vitest läuft alle bestehenden Tests grün
 Run: `git status`
 
 Expected: Zwei Änderungen als untracked/modified:
+
 - `supabase/migrations/<timestamp>_uuid_auth_users.sql` (untracked)
 - `src/types/database.ts` (modified)
 

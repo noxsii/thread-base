@@ -12,7 +12,7 @@ Das Produkt soll ohne klassischen Email/Passwort-Login auskommen. Identität wir
 
 - Synthetisches Email/Passwort-Mapping: `email = "<uuid>@thread-base.local"`, `password` deterministisch aus der UUID abgeleitet.
 - Supabase Auth übernimmt JWT-Ausstellung, Refresh, Session-Persistence.
-- Die UUID ist gleichzeitig Identifier *und* Geheimnis — wer die UUID kennt, ist eingeloggt.
+- Die UUID ist gleichzeitig Identifier _und_ Geheimnis — wer die UUID kennt, ist eingeloggt.
 
 Diese Spec beschreibt das DB-Fundament, auf dem dieser Mechanismus aufsetzt. Die Frontend-Integration (signUp/signIn-Aufrufe, UI für UUID-Eingabe) wird in einer eigenen Spec/Iteration designed.
 

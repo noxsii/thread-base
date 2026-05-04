@@ -38,10 +38,9 @@ export const useAuthStore = defineStore('auth', () => {
     const first = await supabase.auth.signInWithPassword({ email, password })
     if (!first.error) return first.data
 
-    const signupRes = await supabase.functions.invoke<{ ok: boolean; id: string }>(
-      'uuid-signup',
-      { body: { uuid } },
-    )
+    const signupRes = await supabase.functions.invoke<{ ok: boolean; id: string }>('uuid-signup', {
+      body: { uuid },
+    })
     if (signupRes.error) throw signupRes.error
 
     const second = await supabase.auth.signInWithPassword({ email, password })
