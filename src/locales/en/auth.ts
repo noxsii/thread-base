@@ -14,6 +14,8 @@ export default {
       'There is no recovery. We do not know your ID.',
     ],
     confirm: 'I have stored my user ID',
+    rulesAccept: 'I have read and accept the {rules}',
+    rulesLink: 'rules',
     submit: 'Get started',
     submitting: 'Loading …',
     unknownError: 'Unknown error',

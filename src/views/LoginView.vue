@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter, RouterLink } from 'vue-router'
+import { useI18n, Translation as I18nT } from 'vue-i18n'
 import { Check, Copy, Download, KeyRound, ShieldAlert } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useDeviceUuidStore } from '@/stores/deviceUuid'
@@ -30,6 +30,10 @@ const submitting = ref(false)
 const errorMessage = ref<string | null>(null)
 const justCopied = ref(false)
 const confirmed = ref(false)
+const rulesAccepted = ref(false)
+const canSubmit = computed(
+  () => !!uuid.value && confirmed.value && rulesAccepted.value && !submitting.value,
+)
 
 const warningPoints = computed(() => tm('auth.login.warningPoints') as string[])
 
@@ -56,7 +60,7 @@ function downloadUuid() {
 }
 
 async function start() {
-  if (!uuid.value || submitting.value || !confirmed.value) return
+  if (!canSubmit.value) return
   submitting.value = true
   errorMessage.value = null
   try {
@@ -164,14 +168,36 @@ async function start() {
           </AlertDescription>
         </Alert>
 
-        <label
-          class="flex items-start gap-3 cursor-pointer select-none rounded-lg border border-border/60 bg-background/40 px-3 py-3 transition hover:border-border hover:bg-background/70"
-        >
-          <Checkbox v-model="confirmed" class="mt-0.5" />
-          <span class="text-sm leading-snug text-foreground">
-            {{ t('auth.login.confirm') }}
-          </span>
-        </label>
+        <div class="space-y-2">
+          <label
+            class="flex items-start gap-3 cursor-pointer select-none rounded-lg border border-border/60 bg-background/40 px-3 py-3 transition hover:border-border hover:bg-background/70"
+          >
+            <Checkbox v-model="confirmed" class="mt-0.5" />
+            <span class="text-sm leading-snug text-foreground">
+              {{ t('auth.login.confirm') }}
+            </span>
+          </label>
+
+          <label
+            class="flex items-start gap-3 cursor-pointer select-none rounded-lg border border-border/60 bg-background/40 px-3 py-3 transition hover:border-border hover:bg-background/70"
+          >
+            <Checkbox v-model="rulesAccepted" class="mt-0.5" />
+            <span class="text-sm leading-snug text-foreground">
+              <I18nT keypath="auth.login.rulesAccept" tag="span" scope="global">
+                <template #rules>
+                  <RouterLink
+                    :to="{ name: 'rules' }"
+                    target="_blank"
+                    class="font-medium text-primary underline-offset-4 hover:underline"
+                    @click.stop
+                  >
+                    {{ t('auth.login.rulesLink') }}
+                  </RouterLink>
+                </template>
+              </I18nT>
+            </span>
+          </label>
+        </div>
 
         <p v-if="errorMessage" class="text-sm text-destructive" role="alert">
           {{ errorMessage }}
@@ -182,7 +208,7 @@ async function start() {
         <Button
           class="w-full bg-linear-to-r from-violet-600 via-fuchsia-600 to-sky-600 text-white shadow-lg shadow-violet-600/30 transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-600/40 hover:opacity-100 disabled:translate-y-0 disabled:shadow-none"
           size="lg"
-          :disabled="submitting || !uuid || !confirmed"
+          :disabled="!canSubmit"
           @click="start"
         >
           {{ submitting ? t('auth.login.submitting') : t('auth.login.submit') }}

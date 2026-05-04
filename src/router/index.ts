@@ -16,5 +16,10 @@ export const router = createRouter({
       path: '/login',
       component: () => import('@/views/LoginView.vue'),
     },
+    {
+      name: 'rules',
+      path: '/rules',
+      component: () => import('@/views/RulesView.vue'),
+    },
   ],
 })

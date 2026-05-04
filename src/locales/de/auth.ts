@@ -15,6 +15,8 @@ export default {
       'Es gibt keine Wiederherstellung. Wir kennen deine ID nicht.',
     ],
     confirm: 'Ich habe meine User-ID gespeichert',
+    rulesAccept: 'Ich habe die {rules} gelesen und akzeptiere sie',
+    rulesLink: 'Regeln',
     submit: 'Loslegen',
     submitting: 'Lade …',
     unknownError: 'Unbekannter Fehler',
