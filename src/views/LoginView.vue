@@ -72,15 +72,38 @@ async function start() {
 </script>
 
 <template>
-  <main class="min-h-dvh bg-background px-4 py-8 sm:py-12 flex items-center justify-center">
-    <Card class="w-full max-w-lg">
+  <main
+    class="relative min-h-dvh overflow-hidden bg-linear-to-br from-slate-50 via-white to-slate-100 px-4 py-8 sm:py-12 flex items-center justify-center dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
+  >
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+      <div
+        class="absolute -top-32 -left-24 size-112 rounded-full bg-violet-400/30 blur-3xl dark:bg-violet-600/20"
+      />
+      <div
+        class="absolute top-1/3 -right-24 size-104 rounded-full bg-sky-400/30 blur-3xl dark:bg-sky-600/20"
+      />
+      <div
+        class="absolute -bottom-32 left-1/3 size-120 rounded-full bg-fuchsia-400/20 blur-3xl dark:bg-fuchsia-600/15"
+      />
+      <div
+        class="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,var(--color-foreground)_1px,transparent_0)] bg-size-[24px_24px] opacity-[0.04] dark:opacity-[0.06]"
+      />
+    </div>
+
+    <Card
+      class="w-full max-w-lg border-white/40 bg-white/70 shadow-2xl shadow-slate-900/5 backdrop-blur-xl supports-backdrop-filter:bg-white/60 dark:border-white/10 dark:bg-slate-900/60 dark:shadow-black/40 dark:supports-backdrop-filter:bg-slate-900/50"
+    >
       <CardHeader class="space-y-3">
         <div
-          class="mx-auto flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary"
+          class="mx-auto flex size-14 items-center justify-center rounded-2xl bg-linear-to-br from-violet-500 via-fuchsia-500 to-sky-500 text-white shadow-lg shadow-violet-500/30 ring-1 ring-white/40"
         >
-          <KeyRound class="size-6" />
+          <KeyRound class="size-7" />
         </div>
-        <CardTitle class="text-center text-2xl">{{ t('auth.login.title') }}</CardTitle>
+        <CardTitle
+          class="text-center text-3xl font-semibold tracking-tight bg-linear-to-br from-foreground to-foreground/70 bg-clip-text text-transparent"
+        >
+          {{ t('auth.login.title') }}
+        </CardTitle>
         <CardDescription class="text-center text-balance">
           {{ t('auth.login.subtitle') }}
         </CardDescription>
@@ -93,8 +116,11 @@ async function start() {
           </p>
 
           <div
-            class="rounded-lg border border-border bg-muted/40 px-4 py-3 font-mono text-sm break-all select-all"
+            class="group relative rounded-xl border border-border/70 bg-linear-to-br from-muted/60 to-muted/20 px-4 py-4 font-mono text-sm tracking-wide break-all select-all shadow-inner"
           >
+            <div
+              class="pointer-events-none absolute inset-x-0 -top-px h-px bg-linear-to-r from-transparent via-foreground/15 to-transparent"
+            />
             {{ uuid || '…' }}
           </div>
 
@@ -104,18 +130,18 @@ async function start() {
             <Button
               type="button"
               variant="outline"
-              class="w-full"
+              class="w-full bg-white/60 backdrop-blur transition hover:-translate-y-0.5 hover:shadow-md dark:bg-white/5"
               :disabled="!uuid"
               @click="copyUuid"
             >
-              <Check v-if="justCopied" class="size-4" />
+              <Check v-if="justCopied" class="size-4 text-emerald-500" />
               <Copy v-else class="size-4" />
               {{ justCopied ? t('auth.login.copied') : t('auth.login.copy') }}
             </Button>
             <Button
               type="button"
               variant="outline"
-              class="w-full"
+              class="w-full bg-white/60 backdrop-blur transition hover:-translate-y-0.5 hover:shadow-md dark:bg-white/5"
               :disabled="!uuid"
               @click="downloadUuid"
             >
@@ -125,7 +151,10 @@ async function start() {
           </div>
         </section>
 
-        <Alert variant="destructive">
+        <Alert
+          variant="destructive"
+          class="border-destructive/30 bg-destructive/5 backdrop-blur-sm"
+        >
           <ShieldAlert />
           <AlertTitle>{{ t('auth.login.warningTitle') }}</AlertTitle>
           <AlertDescription>
@@ -135,7 +164,9 @@ async function start() {
           </AlertDescription>
         </Alert>
 
-        <label class="flex items-start gap-3 cursor-pointer select-none">
+        <label
+          class="flex items-start gap-3 cursor-pointer select-none rounded-lg border border-border/60 bg-background/40 px-3 py-3 transition hover:border-border hover:bg-background/70"
+        >
           <Checkbox v-model="confirmed" class="mt-0.5" />
           <span class="text-sm leading-snug text-foreground">
             {{ t('auth.login.confirm') }}
@@ -149,7 +180,7 @@ async function start() {
 
       <CardFooter>
         <Button
-          class="w-full"
+          class="w-full bg-linear-to-r from-violet-600 via-fuchsia-600 to-sky-600 text-white shadow-lg shadow-violet-600/30 transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-600/40 hover:opacity-100 disabled:translate-y-0 disabled:shadow-none"
           size="lg"
           :disabled="submitting || !uuid || !confirmed"
           @click="start"
