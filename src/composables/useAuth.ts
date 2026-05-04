@@ -9,6 +9,7 @@ export function useAuth() {
     session,
     loading,
     isAuthenticated,
+    signInWithUuid: (uuid: string) => store.signInWithUuid(uuid),
     signOut: () => store.signOut(),
   }
 }

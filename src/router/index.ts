@@ -14,8 +14,7 @@ export const router = createRouter({
     {
       name: 'login',
       path: '/login',
-      // TODO: replace HomeView placeholder with a real LoginView before shipping auth
-      component: () => import('@/views/HomeView.vue'),
+      component: () => import('@/views/LoginView.vue'),
     },
   ],
 })
